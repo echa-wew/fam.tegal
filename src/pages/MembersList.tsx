@@ -9,6 +9,8 @@ import { useAuthStore } from '../store';
 import toast from 'react-hot-toast';
 import { Plus, Search, Edit2, Trash2 } from 'lucide-react';
 
+import { logActivity } from '../lib/logger';
+
 export default function MembersList() {
   const { userData } = useAuthStore();
   const [members, setMembers] = useState<FamilyMember[]>([]);
@@ -56,9 +58,11 @@ export default function MembersList() {
 
       if (editingId) {
         await updateDoc(doc(db, 'familyMembers', editingId), payload);
+        await logActivity('UPDATE_MEMBER', `Mengubah data anggota: ${formData.firstName} ${formData.lastName}`, userData);
         toast.success('Data anggota diperbarui');
       } else {
         await addDoc(collection(db, 'familyMembers'), payload);
+        await logActivity('CREATE_MEMBER', `Menambahkan anggota: ${formData.firstName} ${formData.lastName}`, userData);
         toast.success('Anggota keluarga ditambahkan');
       }
       setIsModalOpen(false);
@@ -87,10 +91,11 @@ export default function MembersList() {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (m: FamilyMember) => {
     if (window.confirm('Yakin ingin menghapus anggota ini?')) {
       try {
-        await deleteDoc(doc(db, 'familyMembers', id));
+        await deleteDoc(doc(db, 'familyMembers', m.id));
+        await logActivity('DELETE_MEMBER', `Menghapus anggota: ${m.firstName} ${m.lastName}`, userData);
         toast.success('Anggota dihapus');
         fetchMembers();
       } catch (error: any) {
@@ -170,7 +175,7 @@ export default function MembersList() {
                 <Edit2 className="h-4 w-4 mr-1" /> Edit
               </Button>
               {userData.role === 'admin' && (
-                <Button variant="destructive" size="sm" onClick={() => handleDelete(m.id)}>
+                <Button variant="destructive" size="sm" onClick={() => handleDelete(m)}>
                   <Trash2 className="h-4 w-4" />
                 </Button>
               )}

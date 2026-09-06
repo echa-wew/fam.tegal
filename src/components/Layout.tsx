@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore, useAppStore } from '../store';
-import { Home, Users, Network, MessageCircle, CalendarDays, LogOut, Sun, Moon, Menu, Search, BookOpen } from 'lucide-react';
+import { Home, Users, Network, MessageCircle, CalendarDays, LogOut, Sun, Moon, Menu, Search, BookOpen, Activity } from 'lucide-react';
 import { useState } from 'react';
 import { auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
@@ -54,6 +54,19 @@ export default function Layout() {
             </Link>
           );
         })}
+        
+        {userData?.role === 'admin' && (
+          <Link
+            to="/logs"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={`flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              location.pathname === '/logs' ? 'bg-yellow-500/10 text-yellow-500' : 'text-yellow-600 hover:bg-muted hover:text-yellow-500'
+            }`}
+          >
+            <Activity className="mr-3 h-4 w-4 flex-shrink-0" />
+            Log Aktifitas Admin
+          </Link>
+        )}
       </nav>
       <div className="p-4 border-t border-border/50">
         <div className="bg-muted/50 p-3 rounded-lg border border-border/50">

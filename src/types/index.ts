@@ -51,3 +51,12 @@ export interface FamilyHistory {
   authorName: string;
   createdAt: Timestamp | Date;
 }
+
+export interface ActivityLog {
+  id: string;
+  action: string;
+  description: string;
+  userId: string;
+  userName: string;
+  createdAt: Timestamp | Date;
+}

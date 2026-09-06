@@ -19,6 +19,7 @@ import MembersList from './pages/MembersList';
 import Chat from './pages/Chat';
 import Events from './pages/Events';
 import History from './pages/History';
+import ActivityLogs from './pages/ActivityLogs';
 
 export default function App() {
   const { user, isLoading, setUser, setUserData, setLoading } = useAuthStore();
@@ -62,6 +63,7 @@ export default function App() {
             <Route path="chat" element={<Chat />} />
             <Route path="events" element={<Events />} />
             <Route path="history" element={<History />} />
+            <Route path="logs" element={<ActivityLogs />} />
           </Route>
         </Routes>
       </BrowserRouter>

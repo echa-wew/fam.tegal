@@ -8,6 +8,8 @@ import { useAuthStore } from '../store';
 import { Button } from '../components/ui/Button';
 import toast from 'react-hot-toast';
 
+import { logActivity } from '../lib/logger';
+
 export default function Dashboard() {
   const { userData } = useAuthStore();
   const [totalMembers, setTotalMembers] = useState(0);
@@ -61,10 +63,11 @@ export default function Dashboard() {
     fetchDashboardData();
   }, [userData]);
 
-  const handleVerifyUser = async (userId: string) => {
+  const handleVerifyUser = async (user: User) => {
     try {
-      await updateDoc(doc(db, 'users', userId), { isVerified: true });
-      setPendingUsers(prev => prev.filter(u => u.id !== userId));
+      await updateDoc(doc(db, 'users', user.id), { isVerified: true });
+      await logActivity('VERIFY_USER', `Memverifikasi akun: ${user.displayName}`, userData);
+      setPendingUsers(prev => prev.filter(u => u.id !== user.id));
       toast.success('Pengguna berhasil diverifikasi!');
     } catch (error) {
       toast.error('Gagal verifikasi pengguna.');
@@ -211,7 +214,7 @@ export default function Dashboard() {
                       <p className="text-xs font-bold truncate text-foreground">{user.displayName}</p>
                       <p className="text-[10px] text-muted-foreground truncate">{user.email}</p>
                     </div>
-                    <Button size="sm" className="h-6 text-[10px] px-2" onClick={() => handleVerifyUser(user.id)}>Setujui</Button>
+                    <Button size="sm" className="h-6 text-[10px] px-2" onClick={() => handleVerifyUser(user)}>Setujui</Button>
                   </div>
                 ))}
               </CardContent>

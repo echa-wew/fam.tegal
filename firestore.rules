@@ -47,5 +47,19 @@ service cloud.firestore {
       allow update: if isAdmin() || request.auth.uid == resource.data.createdBy;
       allow delete: if isAdmin() || request.auth.uid == resource.data.createdBy;
     }
+
+    match /familyHistory/{historyId} {
+      allow read: if isVerified();
+      allow create: if isVerified() && request.resource.data.authorId == request.auth.uid;
+      allow update: if isAdmin() || request.auth.uid == resource.data.authorId;
+      allow delete: if isAdmin() || request.auth.uid == resource.data.authorId;
+    }
+
+    match /activityLogs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isVerified() && request.resource.data.userId == request.auth.uid;
+      allow update: if false;
+      allow delete: if false;
+    }
   }
 }

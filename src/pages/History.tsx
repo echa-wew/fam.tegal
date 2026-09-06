@@ -9,6 +9,8 @@ import { useAuthStore } from '../store';
 import { BookOpen, Plus, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
+import { logActivity } from '../lib/logger';
+
 export default function History() {
   const { userData } = useAuthStore();
   const [histories, setHistories] = useState<FamilyHistory[]>([]);
@@ -47,6 +49,7 @@ export default function History() {
         authorName: userData.displayName,
         createdAt: serverTimestamp(),
       });
+      await logActivity('CREATE_HISTORY', `Menambahkan cerita sejarah: ${formData.title}`, userData);
       toast.success('Cerita berhasil ditambahkan');
       setFormData({ title: '', content: '' });
       setIsModalOpen(false);
@@ -56,10 +59,11 @@ export default function History() {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (history: FamilyHistory) => {
     if (!window.confirm('Apakah Anda yakin ingin menghapus cerita ini?')) return;
     try {
-      await deleteDoc(doc(db, 'familyHistory', id));
+      await deleteDoc(doc(db, 'familyHistory', history.id));
+      await logActivity('DELETE_HISTORY', `Menghapus cerita sejarah: ${history.title}`, userData);
       toast.success('Cerita berhasil dihapus');
       fetchHistories();
     } catch (error) {
@@ -119,7 +123,7 @@ export default function History() {
                     </div>
                   </div>
                   {(userData.role === 'admin' || userData.id === history.authorId) && (
-                    <Button variant="ghost" size="sm" onClick={() => handleDelete(history.id)} className="text-red-500 hover:text-red-600 hover:bg-red-500/10 h-8 w-8 p-0">
+                    <Button variant="ghost" size="sm" onClick={() => handleDelete(history)} className="text-red-500 hover:text-red-600 hover:bg-red-500/10 h-8 w-8 p-0">
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   )}

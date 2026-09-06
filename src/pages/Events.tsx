@@ -9,6 +9,8 @@ import { useAuthStore } from '../store';
 import toast from 'react-hot-toast';
 import { Calendar, Plus, Trash2 } from 'lucide-react';
 
+import { logActivity } from '../lib/logger';
+
 export default function Events() {
   const { userData } = useAuthStore();
   const [events, setEvents] = useState<FamilyEvent[]>([]);
@@ -43,6 +45,7 @@ export default function Events() {
         description,
         createdBy: userData.id
       });
+      await logActivity('CREATE_EVENT', `Menambahkan acara: ${title}`, userData);
       toast.success('Acara ditambahkan');
       setTitle('');
       setDate('');
@@ -53,10 +56,11 @@ export default function Events() {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (evt: FamilyEvent) => {
     if (window.confirm('Hapus acara ini?')) {
       try {
-        await deleteDoc(doc(db, 'events', id));
+        await deleteDoc(doc(db, 'events', evt.id));
+        await logActivity('DELETE_EVENT', `Menghapus acara: ${evt.title}`, userData);
         toast.success('Acara dihapus');
         fetchEvents();
       } catch (error) {
@@ -101,7 +105,7 @@ export default function Events() {
                     {evt.description && <p className="text-xs text-muted-foreground mt-2 p-2 bg-muted rounded-lg">{evt.description}</p>}
                   </div>
                   {(userData.role === 'admin' || userData.id === evt.createdBy) && (
-                    <Button variant="ghost" size="sm" onClick={() => handleDelete(evt.id)} className="text-red-500 hover:text-red-400 hover:bg-red-500/10">
+                    <Button variant="ghost" size="sm" onClick={() => handleDelete(evt)} className="text-red-500 hover:text-red-400 hover:bg-red-500/10">
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   )}
