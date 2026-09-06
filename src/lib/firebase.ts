@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
+// MASUKKAN KONFIGURASI ANDA SENDIRI DI BAWAH INI
 const firebaseConfig = {
   apiKey: "AIzaSyBEi9k8cT_wHY5wsWJNR5EFMAlk-5nGj7g",
   authDomain: "silsilah-fam-tegal.firebaseapp.com",
