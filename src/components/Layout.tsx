@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore, useAppStore } from '../store';
-import { Home, Users, Network, MessageCircle, CalendarDays, LogOut, Sun, Moon, Menu, Search } from 'lucide-react';
+import { Home, Users, Network, MessageCircle, CalendarDays, LogOut, Sun, Moon, Menu, Search, BookOpen } from 'lucide-react';
 import { useState } from 'react';
 import { auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
@@ -25,16 +25,16 @@ export default function Layout() {
     { label: 'Anggota', path: '/members', icon: Users },
     { label: 'Pesan Keluarga', path: '/chat', icon: MessageCircle },
     { label: 'Acara & Ultah', path: '/events', icon: CalendarDays },
+    { label: 'Kenangan & Sejarah', path: '/history', icon: BookOpen },
   ];
 
   const Sidebar = () => (
     <div className="flex h-full w-64 flex-col bg-card border-r border-border text-foreground">
       <div className="flex flex-col p-6 border-b border-border/50">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-white">P</div>
-          <span className="font-semibold text-lg tracking-tight">Pancakarsa</span>
+          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-white">T</div>
+          <span className="font-semibold text-lg tracking-tight">Fam.Tegal</span>
         </div>
-        <div className="text-[10px] text-muted-foreground mt-1 uppercase tracking-widest">fam.pancakarsa.my.id</div>
       </div>
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         {navItems.map((item) => {
@@ -56,7 +56,7 @@ export default function Layout() {
         })}
       </nav>
       <div className="p-4 border-t border-border/50">
-        <div className="bg-slate-800/50 p-3 rounded-lg border border-border/50">
+        <div className="bg-muted/50 p-3 rounded-lg border border-border/50">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[10px] uppercase text-indigo-400 font-bold">System Health</span>
             <span className="text-[10px] text-emerald-400">CI/CD Active</span>
@@ -99,7 +99,7 @@ export default function Layout() {
             <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)}>
               <Menu className="h-5 w-5 text-foreground" />
             </Button>
-            <h1 className="ml-3 text-lg font-bold truncate">Pancakarsa</h1>
+            <h1 className="ml-3 text-lg font-bold truncate">Fam.Tegal</h1>
           </div>
           
           <div className="hidden md:block relative w-96">

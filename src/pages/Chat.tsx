@@ -76,7 +76,7 @@ export default function Chat() {
             return (
               <div key={msg.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
                 <span className="text-[10px] text-muted-foreground mb-1 px-1">{isMe ? 'Anda' : msg.senderName}</span>
-                <div className={`max-w-[75%] rounded-2xl px-4 py-2 ${isMe ? 'bg-indigo-600 text-white rounded-br-sm shadow-md shadow-indigo-600/20' : 'bg-slate-800 border border-border/50 text-foreground rounded-bl-sm'}`}>
+                <div className={`max-w-[75%] rounded-2xl px-4 py-2 ${isMe ? 'bg-indigo-600 text-white rounded-br-sm shadow-md shadow-indigo-600/20' : 'bg-muted border border-border/50 text-foreground rounded-bl-sm'}`}>
                   <p className="text-[13px]">{msg.text}</p>
                 </div>
                 <span className="text-[9px] text-muted-foreground mt-1 px-1">

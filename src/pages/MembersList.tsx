@@ -152,7 +152,7 @@ export default function MembersList() {
         {filteredMembers.map((m) => (
           <Card key={m.id} className="overflow-hidden flex flex-col bg-card border-border">
             <div className="p-6 flex items-start gap-4">
-              <div className="h-16 w-16 rounded-full border border-border bg-slate-800 flex items-center justify-center flex-shrink-0 overflow-hidden shadow-lg">
+              <div className="h-16 w-16 rounded-full border border-border bg-muted/80 flex items-center justify-center flex-shrink-0 overflow-hidden shadow-lg">
                 {m.profilePicture ? (
                   <img src={m.profilePicture} alt={m.firstName} className="h-full w-full object-cover" />
                 ) : (

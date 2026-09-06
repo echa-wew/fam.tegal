@@ -42,3 +42,12 @@ export interface FamilyEvent {
   description: string;
   createdBy: string;
 }
+
+export interface FamilyHistory {
+  id: string;
+  title: string;
+  content: string;
+  authorId: string;
+  authorName: string;
+  createdAt: Timestamp | Date;
+}

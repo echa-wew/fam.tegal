@@ -78,7 +78,7 @@ export default function Dashboard() {
           <h2 className="text-xl font-bold text-yellow-700 dark:text-yellow-400 mb-2">Akun Menunggu Verifikasi</h2>
           <p className="text-yellow-600 dark:text-yellow-500">
             Akun Anda berhasil dibuat tetapi sedang menunggu persetujuan admin untuk mengakses data keluarga. 
-            Hal ini untuk menjaga privasi dan keamanan silsilah keluarga Pancakarsa.
+            Hal ini untuk menjaga privasi dan keamanan silsilah Fam.Tegal.
           </p>
         </CardContent>
       </Card>
@@ -101,11 +101,11 @@ export default function Dashboard() {
                 <div className="flex flex-col items-center gap-12">
                   <div className="bg-indigo-600/20 border-2 border-indigo-500 p-3 rounded-lg text-center w-32 shadow-lg shadow-indigo-500/20">
                     <div className="text-xs font-bold text-white">Root / Leluhur</div>
-                    <div className="text-[10px] text-indigo-300 italic uppercase">Pancakarsa</div>
+                    <div className="text-[10px] text-indigo-300 italic uppercase">Fam.Tegal</div>
                   </div>
                   <div className="flex gap-16 relative">
                     <div className="absolute top-[-24px] left-1/2 w-[150%] h-[2px] bg-muted/80 -translate-x-1/2"></div>
-                    <div className="bg-slate-800 border border-border p-3 rounded-lg text-center w-32">
+                    <div className="bg-muted/50 border border-border p-3 rounded-lg text-center w-32">
                       <div className="text-xs font-semibold">{totalMembers}</div>
                       <div className="text-[10px] text-muted-foreground">Total Anggota</div>
                     </div>
@@ -130,11 +130,11 @@ export default function Dashboard() {
                     const date = (member as any).parsedDate;
                     return (
                       <div key={i} className="flex items-center gap-3 p-2 bg-muted rounded-lg border-l-2 border-indigo-500">
-                        <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-[10px] border border-border overflow-hidden">
+                        <div className="w-8 h-8 rounded-full bg-muted/80 flex items-center justify-center text-[10px] border border-border overflow-hidden">
                           {member.profilePicture ? (
                             <img src={member.profilePicture} alt={member.firstName} className="h-full w-full object-cover" />
                           ) : (
-                            <span className="font-semibold text-white">{member.firstName[0]}</span>
+                            <span className="font-semibold text-foreground">{member.firstName[0]}</span>
                           )}
                         </div>
                         <div className="flex-1 overflow-hidden">
@@ -182,7 +182,7 @@ export default function Dashboard() {
             <div className="bg-gradient-to-r from-indigo-600/40 to-purple-600/40 p-4 h-20"></div>
             <CardContent className="p-6 -mt-10">
               <div className="flex flex-col items-center text-center">
-                <div className="w-20 h-20 rounded-full border-4 border-[#111] bg-slate-800 flex items-center justify-center overflow-hidden mb-4 shadow-xl">
+                <div className="w-20 h-20 rounded-full border-4 border-background bg-muted flex items-center justify-center overflow-hidden mb-4 shadow-xl">
                   {userData.profilePicture ? (
                     <img src={userData.profilePicture} alt="Profile" className="w-full h-full object-cover" />
                   ) : (

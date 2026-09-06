@@ -18,6 +18,7 @@ import FamilyTree from './pages/FamilyTree';
 import MembersList from './pages/MembersList';
 import Chat from './pages/Chat';
 import Events from './pages/Events';
+import History from './pages/History';
 
 export default function App() {
   const { user, isLoading, setUser, setUserData, setLoading } = useAuthStore();
@@ -60,6 +61,7 @@ export default function App() {
             <Route path="members" element={<MembersList />} />
             <Route path="chat" element={<Chat />} />
             <Route path="events" element={<Events />} />
+            <Route path="history" element={<History />} />
           </Route>
         </Routes>
       </BrowserRouter>
