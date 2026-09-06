@@ -1,0 +1,51 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserData().role == 'admin';
+    }
+
+    function isVerified() {
+      return isAuthenticated() && getUserData().isVerified == true;
+    }
+
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if request.auth.uid == userId || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /familyMembers/{memberId} {
+      allow read: if isVerified();
+      allow create: if isVerified();
+      allow update: if isVerified();
+      allow delete: if isAdmin();
+    }
+
+    match /chatMessages/{messageId} {
+      allow read: if isVerified();
+      allow create: if isVerified() && request.resource.data.senderId == request.auth.uid;
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    match /events/{eventId} {
+      allow read: if isVerified();
+      allow create: if isVerified();
+      allow update: if isAdmin() || request.auth.uid == resource.data.createdBy;
+      allow delete: if isAdmin() || request.auth.uid == resource.data.createdBy;
+    }
+  }
+}

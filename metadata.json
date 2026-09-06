@@ -1,0 +1,6 @@
+{
+  "name": "Pancakarsa Family",
+  "description": "Aplikasi silsilah dan portal komunikasi internal untuk keluarga Pancakarsa.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

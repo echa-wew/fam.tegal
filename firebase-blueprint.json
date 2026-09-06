@@ -1,0 +1,75 @@
+{
+  "collections": [
+    {
+      "name": "users",
+      "description": "Registered application users.",
+      "schema": {
+        "email": "string",
+        "displayName": "string",
+        "role": "string ('admin' | 'member')",
+        "isVerified": "boolean",
+        "linkedMemberId": "string (reference to familyMembers collection)"
+      },
+      "securityRules": {
+        "read": "request.auth != null",
+        "create": "request.auth != null",
+        "update": "request.auth.uid == resource.id || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'",
+        "delete": "get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'"
+      }
+    },
+    {
+      "name": "familyMembers",
+      "description": "Records of family members to build the family tree.",
+      "schema": {
+        "firstName": "string",
+        "lastName": "string",
+        "birthDate": "timestamp",
+        "gender": "string ('male' | 'female')",
+        "address": "string",
+        "job": "string",
+        "profilePicture": "string (base64 or URL)",
+        "parentId": "string (optional)",
+        "partnerId": "string (optional)",
+        "isAlive": "boolean"
+      },
+      "securityRules": {
+        "read": "request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isVerified == true",
+        "create": "request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isVerified == true",
+        "update": "request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isVerified == true",
+        "delete": "get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'"
+      }
+    },
+    {
+      "name": "chatMessages",
+      "description": "Internal real-time chat messages for the family.",
+      "schema": {
+        "senderId": "string",
+        "senderName": "string",
+        "text": "string",
+        "timestamp": "timestamp"
+      },
+      "securityRules": {
+        "read": "request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isVerified == true",
+        "create": "request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isVerified == true && request.resource.data.senderId == request.auth.uid",
+        "update": "false",
+        "delete": "get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'"
+      }
+    },
+    {
+      "name": "events",
+      "description": "Important family events and reminders.",
+      "schema": {
+        "title": "string",
+        "date": "timestamp",
+        "description": "string",
+        "createdBy": "string"
+      },
+      "securityRules": {
+        "read": "request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isVerified == true",
+        "create": "request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isVerified == true",
+        "update": "get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' || request.auth.uid == resource.data.createdBy",
+        "delete": "get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' || request.auth.uid == resource.data.createdBy"
+      }
+    }
+  ]
+}
